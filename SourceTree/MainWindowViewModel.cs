@@ -36,7 +36,10 @@ namespace SourceTree.ViewModel
             //aboutWindow.Owner = Application.Current.MainWindow;
             //aboutWindow.ShowDialog();
 
-            MessageBox.Show(this.ConfigurationManager.DataFolder);
+            //MessageBox.Show(this.ConfigurationManager.DataFolder);
+
+            Window window = new Window();
+            window.ShowDialog();
         }
     }
 }

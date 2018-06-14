@@ -1,12 +1,13 @@
 ﻿
+using System;
 using Azzembly.Patcher;
 
 namespace SourceTree
 {
     [Patch(typeof(AppRoot))]
-    public class AppRootPatch
+    public class AppRootPatch : AppRoot
     {
-        public bool Onboard()
+        public new bool Onboard()
         {
             // return this.OnboardingManager.Run();
 

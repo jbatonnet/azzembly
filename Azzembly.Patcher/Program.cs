@@ -50,7 +50,12 @@ namespace Azzembly.Patcher
                         MethodDefinition targetMethod = targetType.Methods.FirstOrDefault(m => m.Name == patchMethod.Name);
                         targetMethod.Body = patchMethod.Body;
 
-                        foreach (Instruction instruction in patchMethod.Body.Instructions)
+                        foreach (VariableDefinition variable in targetMethod.Body.Variables)
+                        {
+                            variable.VariableType = sourceAssembly.MainModule.ImportReference(variable.VariableType);
+                        }
+
+                        foreach (Instruction instruction in targetMethod.Body.Instructions)
                         {
                             if (instruction.Operand is TypeReference typeReference)
                                 instruction.Operand = sourceAssembly.MainModule.ImportReference(typeReference);
