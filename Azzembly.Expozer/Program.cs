@@ -1,61 +1,63 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-
+using System.Linq;
 using Mono.Cecil;
 
 namespace Azzembly.Expozer
 {
     class Program
     {
-        static void Main(string[] args)
-        {
-            if (args.Length != 2)
-                return;
+        public static Dictionary<string, string> Options { get; private set; }
+        public static List<string> Parameters { get; private set; }
 
-            // [0] is source
-            // [1] is target directory
+        public static void Main(string[] args)
+        {
+            Options = args.Where(a => a.StartsWith("/"))
+                          .Select(a => a.TrimStart('/'))
+                          .Select(a => new { Parameter = a.Trim(), Separator = a.Trim().IndexOf(':') })
+                          .ToDictionary(a => a.Separator == -1 ? a.Parameter : a.Parameter.Substring(0, a.Separator).ToLower(), a => a.Separator == -1 ? null : a.Parameter.Substring(a.Separator + 1), StringComparer.InvariantCultureIgnoreCase);
+            Parameters = args.Where(a => !a.StartsWith("/"))
+                             .ToList();
 
             // List assemblies to expose
             List<string> assemblies = new List<string>();
 
-            if (Directory.Exists(args[0]))
+            foreach (string parameter in Parameters)
             {
-                assemblies.AddRange(Directory.GetFiles(args[0], "*.*", SearchOption.AllDirectories));
+                if (parameter.Contains("*"))
+                {
+                    string directory = Path.GetDirectoryName(parameter);
+                    string filter = Path.GetFileName(parameter);
+
+                    assemblies.AddRange(Directory.GetFiles(directory, filter, SearchOption.AllDirectories));
+                }
+                if (File.Exists(args[0]))
+                {
+                    assemblies.Add(Path.GetFullPath(args[0]));
+                    args[0] = Path.GetDirectoryName(args[0]);
+                }
+                else if (Directory.Exists(args[0]))
+                {
+                    assemblies.AddRange(Directory.GetFiles(args[0], "*.dll", SearchOption.AllDirectories));
+                    assemblies.AddRange(Directory.GetFiles(args[0], "*.exe", SearchOption.AllDirectories));
+                }
             }
-            else if (File.Exists(args[0]))
-            {
-                assemblies.Add(Path.GetFullPath(args[0]));
-                args[0] = Path.GetDirectoryName(args[0]);
-            }
-            else
-                return;
 
             if (assemblies.Count == 0)
                 return;
+
+            // Prepare output
+            Options.TryGetValue("output", out string output);
+            if (!Directory.Exists(output))
+                Directory.CreateDirectory(output);
 
             // Expose assemblies
             foreach (string assemblyPath in assemblies)
             {
                 DefaultAssemblyResolver assemblyResolver = new DefaultAssemblyResolver();
                 assemblyResolver.AddSearchDirectory(Path.GetDirectoryName(assemblyPath));
-
-                string newAssemblyPath = assemblyPath.Replace(args[0], args[1]);
-                string newAssemblyDirectory = Path.GetDirectoryName(newAssemblyPath);
-
-                if (!Directory.Exists(newAssemblyDirectory))
-                    Directory.CreateDirectory(newAssemblyDirectory);
-
-                if (!assemblyPath.Contains("SourceTree.exe"))
-                {
-                    if (File.Exists(newAssemblyPath))
-                        File.Delete(newAssemblyPath);
-
-                    File.Copy(assemblyPath, newAssemblyPath);
-
-                    continue;
-                }
-
+                
                 try
                 {
                     AssemblyDefinition assembly = AssemblyDefinition.ReadAssembly(assemblyPath, new ReaderParameters() { AssemblyResolver = assemblyResolver });
@@ -74,14 +76,14 @@ namespace Azzembly.Expozer
                         }
                     }
 
+                    string newAssemblyPath = output == null ? assemblyPath : Path.Combine(output, Path.GetFileName(assemblyPath));
                     assembly.Write(newAssemblyPath);
+
+                    Console.WriteLine($"File {assemblyPath} succesfully processed");
                 }
                 catch
                 {
-                    if (File.Exists(newAssemblyPath))
-                        File.Delete(newAssemblyPath);
-
-                    File.Copy(assemblyPath, newAssemblyPath);
+                    Console.WriteLine($"File {assemblyPath} could not be loaded. It will be skipped");
                 }
             }
         }
