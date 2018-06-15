@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
+
 using Azzembly.Patcher;
 
 namespace SourceTree.View.Dialogs
@@ -13,6 +9,7 @@ namespace SourceTree.View.Dialogs
     {
         private new void TextField_OnLoaded(object sender, RoutedEventArgs e)
         {
+            this.TextField.Focus();
             this.TextField.SelectAll();
         }
     }

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Windows;
 
 using Azzembly.Patcher;
 
@@ -34,18 +33,6 @@ namespace SourceTree.ViewModel
 
         public new void ShowInExplorer()
         {
-            //List<FileStatusRecord> list = this.SelectedFileRecords(false).ToList<FileStatusRecord>();
-            //if (list.Any<FileStatusRecord>())
-            //{
-            //    foreach (FileStatusRecord fileStatusRecord in list)
-            //    {
-            //        if (fileStatusRecord.Status != FileStatus.Deleted && fileStatusRecord.Status != FileStatus.Missing)
-            //            WindowsOSHelper.ShowPathInExplorer(this._repo.GetAbsoluteFilename(fileStatusRecord.Filepath ?? fileStatusRecord.Path ?? fileStatusRecord.Filename));
-            //    }
-            //}
-            //else
-            //    WindowsOSHelper.ShowPathInExplorer(this._repo.Path);
-
             WindowsOSHelper.ShowPathInExplorer(this.Repo.Path);
         }
     }

@@ -6,12 +6,12 @@ using Mono.Cecil;
 
 namespace Azzembly.Expozer
 {
-    class Program
+    public class Program
     {
         public static Dictionary<string, string> Options { get; private set; }
         public static List<string> Parameters { get; private set; }
 
-        public static void Main(string[] args)
+        public static void Main(params string[] args)
         {
             Options = args.Where(a => a.StartsWith("/"))
                           .Select(a => a.TrimStart('/'))
@@ -32,16 +32,13 @@ namespace Azzembly.Expozer
 
                     assemblies.AddRange(Directory.GetFiles(directory, filter, SearchOption.AllDirectories));
                 }
-                if (File.Exists(args[0]))
+                else if (Directory.Exists(parameter))
                 {
-                    assemblies.Add(Path.GetFullPath(args[0]));
-                    args[0] = Path.GetDirectoryName(args[0]);
+                    assemblies.AddRange(Directory.GetFiles(parameter, "*.dll", SearchOption.AllDirectories));
+                    assemblies.AddRange(Directory.GetFiles(parameter, "*.exe", SearchOption.AllDirectories));
                 }
-                else if (Directory.Exists(args[0]))
-                {
-                    assemblies.AddRange(Directory.GetFiles(args[0], "*.dll", SearchOption.AllDirectories));
-                    assemblies.AddRange(Directory.GetFiles(args[0], "*.exe", SearchOption.AllDirectories));
-                }
+                else if (File.Exists(parameter))
+                    assemblies.Add(parameter);
             }
 
             if (assemblies.Count == 0)
@@ -49,7 +46,7 @@ namespace Azzembly.Expozer
 
             // Prepare output
             Options.TryGetValue("output", out string output);
-            if (!Directory.Exists(output))
+            if (output != null && !Directory.Exists(output))
                 Directory.CreateDirectory(output);
 
             // Expose assemblies
@@ -76,8 +73,13 @@ namespace Azzembly.Expozer
                         }
                     }
 
-                    string newAssemblyPath = output == null ? assemblyPath : Path.Combine(output, Path.GetFileName(assemblyPath));
-                    assembly.Write(newAssemblyPath);
+                    string outputAssemblyPath = output == null ? assemblyPath : Path.Combine(output, Path.GetFileName(assemblyPath));
+                    assembly.Write(outputAssemblyPath + ".temp");
+
+                    assembly.Dispose();
+                    if (File.Exists(outputAssemblyPath))
+                        File.Delete(outputAssemblyPath);
+                    File.Move(outputAssemblyPath + ".temp", outputAssemblyPath);
 
                     Console.WriteLine($"File {assemblyPath} succesfully processed");
                 }
