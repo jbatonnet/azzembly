@@ -6,23 +6,8 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azzembly.Expozer", "Azzembly.Expozer\Azzembly.Expozer.csproj", "{B0112280-AED6-42B5-980B-CF698AAD7F2D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azzembly.Patcher", "Azzembly.Patcher\Azzembly.Patcher.csproj", "{7869D66D-C53F-4ED7-BD82-671335D0A0AF}"
-	ProjectSection(ProjectDependencies) = postProject
-		{C1D7B4A2-6103-4E40-9027-98D3A50BA7E0} = {C1D7B4A2-6103-4E40-9027-98D3A50BA7E0}
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Patches", "Patches", "{FDD6EF52-2314-4770-8878-DB58CBF9D847}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SourceTree", "SourceTree\SourceTree.csproj", "{C1D7B4A2-6103-4E40-9027-98D3A50BA7E0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azzembly.Common", "Azzembly.Common\Azzembly.Common.csproj", "{7A539370-AD66-4EED-8A33-E7EE31F18A1A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SourceTree.Api.UI.Wpf", "SourceTree.Api.UI.Wpf\SourceTree.Api.UI.Wpf.csproj", "{314B3D49-09B9-47E2-BA63-DF445D286220}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SourceTree.Launcher", "SourceTree.Launcher\SourceTree.Launcher.csproj", "{5E098DA8-456C-45E6-BF5E-B69E068CD1FB}"
-	ProjectSection(ProjectDependencies) = postProject
-		{314B3D49-09B9-47E2-BA63-DF445D286220} = {314B3D49-09B9-47E2-BA63-DF445D286220}
-		{C1D7B4A2-6103-4E40-9027-98D3A50BA7E0} = {C1D7B4A2-6103-4E40-9027-98D3A50BA7E0}
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,30 +23,13 @@ Global
 		{7869D66D-C53F-4ED7-BD82-671335D0A0AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7869D66D-C53F-4ED7-BD82-671335D0A0AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7869D66D-C53F-4ED7-BD82-671335D0A0AF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C1D7B4A2-6103-4E40-9027-98D3A50BA7E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C1D7B4A2-6103-4E40-9027-98D3A50BA7E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C1D7B4A2-6103-4E40-9027-98D3A50BA7E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C1D7B4A2-6103-4E40-9027-98D3A50BA7E0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7A539370-AD66-4EED-8A33-E7EE31F18A1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7A539370-AD66-4EED-8A33-E7EE31F18A1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A539370-AD66-4EED-8A33-E7EE31F18A1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A539370-AD66-4EED-8A33-E7EE31F18A1A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{314B3D49-09B9-47E2-BA63-DF445D286220}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{314B3D49-09B9-47E2-BA63-DF445D286220}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{314B3D49-09B9-47E2-BA63-DF445D286220}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{314B3D49-09B9-47E2-BA63-DF445D286220}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5E098DA8-456C-45E6-BF5E-B69E068CD1FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5E098DA8-456C-45E6-BF5E-B69E068CD1FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5E098DA8-456C-45E6-BF5E-B69E068CD1FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5E098DA8-456C-45E6-BF5E-B69E068CD1FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{C1D7B4A2-6103-4E40-9027-98D3A50BA7E0} = {FDD6EF52-2314-4770-8878-DB58CBF9D847}
-		{314B3D49-09B9-47E2-BA63-DF445D286220} = {FDD6EF52-2314-4770-8878-DB58CBF9D847}
-		{5E098DA8-456C-45E6-BF5E-B69E068CD1FB} = {FDD6EF52-2314-4770-8878-DB58CBF9D847}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FE641882-5924-41EF-A644-917008769E16}
